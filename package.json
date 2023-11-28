@@ -1,0 +1,88 @@
+{
+  "name": "pydup-detector",
+  "repository": "https://github.com/NSzolnoki/pydup-detector",
+  "displayName": "PyDup Detector",
+  "description": "Detect Duplicates, Find Python Code Gems",
+  "version": "0.0.1",
+  "publisher": "NorbertSzolnoki",
+  "engines": {
+    "vscode": "^1.83.0"
+  },
+  "categories": ["Other"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "pydup-detector.sendSelectedCode",
+        "title": "Send the selected code for analysis"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "PyDup Detector Configuration",
+      "properties": {
+        "pyDupDetector.apiEndpoint": {
+          "readOnly": true,
+          "type": "string",
+          "default": "http://194.182.91.174:8777",
+          "description": "API Endpoint for PyDup Detector"
+        },
+        "pyDupDetector.matchThreshold": {
+          "type": "number",
+          "default": 60,
+          "description": "The minimum match rate for found similar functions."
+        },
+        "pyDupDetector.keybinding": {
+          "type": "string",
+          "default": "shift+alt+x",
+          "description": "Keybinding for sending selected code"
+        },
+        "pyDupDetector.usableLibraries": {
+          "type": "array",
+          "default": ["matplotlib"],
+          "description": "List of usable libraries that installed on the server for analysis"
+        },
+        "pyDupDetector.usedLibraries": {
+          "type": "array",
+          "default": [],
+          "description": "List of used libraries for analysis"
+        },
+        "pyDupDetector.searchType": {
+          "type": "string",
+          "default": "AI model",
+          "enum": ["AI model", "AST based search"],
+          "description": "AI model is a pre-trained model that use the Usable Libraries list to teach,\r\nAST based search is looking for similar function by the Abstract Syntax Tree of your code and the libraries"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.2",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.83.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.50.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
